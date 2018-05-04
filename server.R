@@ -17,7 +17,6 @@ shinyServer(function(input, output, session) {
     v$iteration <- v$iteration + 1
   }
   
-  
   #User's Choice
   observeEvent(input$rock, {shoot(1)})
   
