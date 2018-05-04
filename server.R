@@ -1,11 +1,12 @@
-# Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
   
+  #### INITIALIZE VALUES ####
   v <- reactiveValues(data = NULL)
   v$score <- data.frame(outcome = c("Win","Loss","Tie"), count = c(0,0,0), stringsAsFactors = F)
   v$iteration <- 0
   v$id <- id
   
+  #### MAIN GAMEPLAY FUNCTION ####
   shoot <- function(rps){
     v$player1 <- rps
     
@@ -17,13 +18,14 @@ shinyServer(function(input, output, session) {
     v$iteration <- v$iteration + 1
   }
   
-  #User's Choice
+  #### USER CHOICE ####
   observeEvent(input$rock, {shoot(1)})
   
   observeEvent(input$paper, {shoot(2)}) 
   
   observeEvent(input$scissors, {shoot(3)}) 
   
+  #### RESET SOME ELEMENTS WHEN NEW PLAYER IS SELECTED ####
   observeEvent(input$newPlayer, {
      v$score$count <- 0
      v$iteration <- 0
@@ -34,7 +36,7 @@ shinyServer(function(input, output, session) {
   }) 
   
   #### MAIN BODY ELEMENTS ####
-  output$imgPlayer1 <- renderImage({   #This is where the image is set 
+  output$imgPlayer1 <- renderImage({
     if(v$player1 == 1){            
       list(src = "./icons/left-rock.png", width = "90%")
     }                                        
@@ -57,7 +59,7 @@ shinyServer(function(input, output, session) {
       
   })
   
-  output$imgPlayer2 <- renderImage({   #This is where the image is set 
+  output$imgPlayer2 <- renderImage({
     if(v$player2 == 1){            
       list(src = "./icons/right-rock.png", width = "90%")
     }                                        
@@ -90,17 +92,6 @@ shinyServer(function(input, output, session) {
       outcome2(v$player1, v$player2)
   })
   
-  output$outcome2Text <- renderUI({
-    if(!is.null(v$player1) & !is.null(v$player2)){
-      textOutput("outcomeFooter")
-    }
-  })
-  
-  output$outcomeFooter <- renderText({
-    outcome1(v$player1, v$player2)
-  })
-  
-  
   #### SIDEBAR ELEMENTS ####
   output$scoreGraph <- renderPlot({
       updateGraph(v$score)
@@ -116,22 +107,7 @@ shinyServer(function(input, output, session) {
       updateScoreTable(dat, v$id)
   },escape = FALSE,options = list(searching = FALSE, paging=FALSE))
 
-  #### RESET THE GAME BOARD BY REFRESHING PLAYER 1 AND COMPUTER CHOICES ####
-  observe({
-    invalidateLater(input$timeBetween*1000, session)
-    v$player1 <- NULL
-    v$player2 <- NULL
-    timestart <- Sys.time()
-  })
-  
-  #### APPEND DATA TO THE TRAINING DATA TABLE AND COMPUTER SCORE TABLE ####
-  observe({
-      if(!is.null(v$player1) & !is.null(v$player2)){
-        dat <- roundAppend(dat,v$id, v$iteration, v$player1, v$player2, outcometable(outcome1(v$player1, v$player2)))
-        comp <- compAppend(comp,v$id, v$player1, v$player2, outcometable(outcome1(v$player1, v$player2)), input$computerMode, v$endTime)
-      }
-  })
-  
+
   #### BOTTOM PANEL ELEMENTS ####
   output$matches <- renderText({
     invalidateLater(input$timeBetween*1000, session)
@@ -152,6 +128,22 @@ shinyServer(function(input, output, session) {
       return("")
     }
     paste0("Processing Time: ", round(v$endTime,3), "s")
+  })
+  
+  #### RESET THE GAME BOARD BY REFRESHING PLAYER 1 AND COMPUTER CHOICES ####
+  observe({
+    invalidateLater(input$timeBetween*1000, session)
+    v$player1 <- NULL
+    v$player2 <- NULL
+    timestart <- Sys.time()
+  })
+  
+  #### APPEND DATA TO THE TRAINING DATA TABLE AND COMPUTER SCORE TABLE ####
+  observe({
+    if(!is.null(v$player1) & !is.null(v$player2)){
+      dat <- roundAppend(dat,v$id, v$iteration, v$player1, v$player2, outcometable(outcome1(v$player1, v$player2)))
+      comp <- compAppend(comp,v$id, v$player1, v$player2, outcometable(outcome1(v$player1, v$player2)), input$computerMode, v$endTime)
+    }
   })
   
 })

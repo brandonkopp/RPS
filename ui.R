@@ -7,7 +7,7 @@ library(nnet)
 shinyUI(navbarPage("RPS Shiny", theme="main.css",
   
   tabPanel("The Game",
-    # Sidebar with a slider input for number of bins 
+    #### SIDEBAR INCLUDING NEW PLAYER BUTTON, RESULTS GRAPH, & RESULTS TABLE ####
     sidebarLayout(position="right",
       sidebarPanel(width=3,id = "sidebar",
          actionButton("newPlayer", "New Player"),
@@ -18,7 +18,7 @@ shinyUI(navbarPage("RPS Shiny", theme="main.css",
          div(dataTableOutput("scoreTable"), style="font-size:80%")
       ),
       
-      # Show a plot of the generated distribution
+      #### MAIN PANEL WITH DIVs FOR PLAYER 1 AND COMPUTER ####
       mainPanel(width = 9,
          fluidRow(
               column(6, id="divleft",height="100%",
@@ -43,6 +43,7 @@ shinyUI(navbarPage("RPS Shiny", theme="main.css",
               tags$h1(uiOutput("outcomeText"))
          ),
          tags$hr(style="margin-top:0px"),
+         #### BOTTOM PANEL WITH COMPUTER SETTINGS AND RESULTS ####
          fluidRow(
            column(1,
                   tags$br()
@@ -65,9 +66,10 @@ shinyUI(navbarPage("RPS Shiny", theme="main.css",
       )
     )
   ),
+  #### SECONDARY TAB WITH EXPLANATION OF APP DESIGN ####
   tabPanel("The Explanation",
            fluidPage(fluidRow(
-             includeHTML("./www/htmlText.html")
+             includeHTML("./www/htmlText.html") #Imports separate HTML File.
            ))
            
            )
