@@ -1,5 +1,5 @@
 <h2>RPS Shiny</h2>
-
+ 
 <p>This is a simple Rock, Paper, Scissors application built in R Shiny. The computer's selections are driven by a multiple logistic regression model.</p>
 
 <p>You can preview the app at: <a href="https://brandonkopp.shinyapps.io/RPS-Shiny/">https://brandonkopp.shinyapps.io/RPS-Shiny/</a>.</p>
