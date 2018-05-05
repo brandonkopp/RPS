@@ -11,7 +11,6 @@
 - <b>Image Elements:</b> I wanted to incorporate dynamic images that appear and disappear as part of the game.
 - <b>Resetting:</b> Through building this app, I discovered the InvalidateLater() function which is tremendously useful for resetting the game board.
 
-
 <h3>The Predictive Model</h3>
 
 <p>The heart of the app is the predictive model that drives the computer's choices.  I started out with random selection, but that wasn't any fun. Why not record game data and put it to work. At first, I thought Rock, Paper, Scissors might not be the best game to try out a predictive model on. In order for a model to work, there has to be some pattern to pick up on and RPS is supposed to be random right?  The more I played, the more I realized there probably is a pattern worth picking up and the computer has been beating me fairly regularly. Here's how it works:</p>
