@@ -3,7 +3,6 @@ library(ggplot2)
 library(dplyr)
 library(nnet)
 
-# Define UI for application that draws a histogram
 shinyUI(navbarPage("RPS Shiny", theme="main.css",
   
   tabPanel("The Game",
