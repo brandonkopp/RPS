@@ -19,7 +19,7 @@
 }
 
 body{
-	height: 1050px;
+	height: 1075px;
    background-image: linear-gradient(to right top, #476592, #0082b6, #009fb4, #00b685, #04c628);
 }
 
@@ -44,5 +44,20 @@ body{
 }
 
 img{
-	max-width:350;
+	max-width:350px;
+}
+
+.navbar .navbar-brand{
+	color: #b70101;
+	font-weight:400;
+}
+
+a{
+	color: #93caf2;
+}
+
+#branding{
+	position:relative;
+	top:200px;
+	left:10px;
 }

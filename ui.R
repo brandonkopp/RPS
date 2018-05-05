@@ -43,6 +43,7 @@ shinyUI(navbarPage("RPS Shiny", theme="main.css",
               tags$h1(uiOutput("outcomeText"))
          ),
          tags$hr(style="margin-top:0px"),
+         tags$p(id="branding",style="color:white", "This app is a ", tags$a(href="https://brandonkopp.com", "brandonkopp.com"), " creation."),
          #### BOTTOM PANEL WITH COMPUTER SETTINGS AND RESULTS ####
          fluidRow(
            column(1,
