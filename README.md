@@ -4,7 +4,7 @@
 
 <p>You can preview the app at: <a href="https://brandonkopp.shinyapps.io/RPS-Shiny/">https://brandonkopp.shinyapps.io/RPS-Shiny/</a>.</p>
 
-<img src="img/newRPS.png"/ width="700px">
+![RPS UI Image](img/newRPS.png)
 
 <p>I developed this app to show my coworkers something neat you can do with R Shiny.  This app was also an opportunity for me to learn some new things. This is what I learned while creating this app and hope to pass on to anyone who comes across this repo:</p>
 
