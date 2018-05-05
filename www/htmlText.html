@@ -3,7 +3,7 @@
 <p>Thank you for visiting. I developed this app to show my coworkers something neat you can do with R Shiny.  This app was also an opportunity for me to learn some new things. This app is a demonstration of:</p>
 
 <ul>
-	<li><b>Persistent Storage:</b> This is the first app I've built that collects and stores data on the Shiny server (oh, by the way, your matches against the computer were recorded in a data file).</li>
+	<li><b>Persistent Storage:</b> This is the first app I've built that collects and stores data. I originally tried using traditional saveRDS(), but found that that doesn't work on ShinyApps. The app now uses Google Sheets to store the data. This causes some latency issues, but does what it's supposed to.</li>
 	<li><b>Predictive Modeling:</b> I wanted to build a predictive model into an application. How the model works is explained below.</li>
 	<li><b>Image Elements:</b> I wanted to incorporate dynamic images that appear and disappear as part of the game.</li>
 	<li><b>Resetting:</b> Through building this app, I discovered the InvalidateLater() function which is tremendously useful for resetting the game board.</li>

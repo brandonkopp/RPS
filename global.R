@@ -1,12 +1,23 @@
+library(googlesheets)
 #### INITIALIZE VARIABLES AND IMPORT DATA ####
 options <- c("Rock", "Paper", "Scissors")
 
-dat <- readRDS("./www/dat.rds")
-dat <- dat[complete.cases(dat), ]
+#### GOOGLE SHEETS ####
+saveData <- function(data, key) {
+  # Grab the Google Sheet
+  sheet <- gs_key(key)
+  # Add the data as a new row
+  gs_add_row(sheet, input = data)
+}
+loadData <- function(key) {
+  # Grab the Google Sheet
+  sheet <- gs_key(key)
+  # Read the data
+  gs_read_csv(sheet)
+}
 
-comp <- readRDS("./www/compScore.rds")
-comp <- comp[complete.cases(comp), ]
-
+dat <- loadData("KEY") #Requires Key Value for Table in Google Sheets
+ 
 timestart <- Sys.time()
 
 if(is.na(max(dat$id,na.rm = T))){
@@ -50,6 +61,9 @@ outcome1 <- function(player1, player2){
 }
 
 outcome2 <- function(player1, player2){
+  if(is.null(player1)){
+    return("")
+  }
   
   if(player1 == player2){
     return("Tie")
@@ -159,9 +173,9 @@ predShift <- function(pred){
 }
 
 #### UPDATE AND SAVE DATASETS ####
-roundAppend <- function(dat,vid,iteration, player1, player2, outcome){
-  x <- data.frame(matrix(ncol = 7))
-  names(x) <- c("id", "datetime", "selectiontime","iteration","p1choice", "p2choice","outcome")
+roundAppend <- function(dat,vid,iteration, player1, player2, outcome, mode, dtime){
+  x <- data.frame(matrix(ncol = 9))
+  names(x) <- c("id", "datetime", "selectiontime","iteration","p1choice", "p2choice","outcome", "mode", "decisionTime")
   
   x$id[1] <- vid
   x$datetime[1] <- as.POSIXct(Sys.time(), origin="1970-01-01")
@@ -170,34 +184,19 @@ roundAppend <- function(dat,vid,iteration, player1, player2, outcome){
   x$p1choice[1] <- player1
   x$p2choice[1] <- player2
   x$outcome[1] <- outcome
- 
+  x$mode[1] <- mode
+  x$decisionTime[1] <- dtime
+  
   dat <<- rbind(dat, x)
-  saveRDS(dat, "./www/dat.rds")
+  saveData(x, "KEY") #Requires Key Value for Table in Google Sheets
   
   return(dat)
 }
 
-compAppend <- function(comp,vid, player1, player2, outcome, mode, dtime){
-  x <- data.frame(matrix(ncol=6), stringsAsFactors = F)
-  names(x) <- c('playerid','p1choice','p2choice', 'outcome', 'mode', 'decisionTime')
-  
-  x$playerid[1] <- vid
-  x$p1choice[1] <- player1
-  x$p2choice[1] <- player2
-  x$outcome[1] <- outcome
-  x$mode[1] <- mode
-  x$decisionTime[1] <- dtime
-  
-  comp <<- rbind(comp, x)
-  saveRDS(comp, "./www/compScore.rds")
-  
-  return(comp)
-}
-
 #### BOTTOM PANEL ELEMENTS ####
-compTable <- function(comp, id=NULL){
+compTable <- function(comp, pid=NULL){
   compTable <- comp %>%
-    filter(playerid == id) %>%
+    filter(id == pid) %>%
     filter(outcome !=0) %>%
     group_by(mode) %>%
     summarize(Matches = n(),

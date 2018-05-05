@@ -5,7 +5,6 @@ shinyServer(function(input, output, session) {
   v$score <- data.frame(outcome = c("Win","Loss","Tie"), count = c(0,0,0), stringsAsFactors = F)
   v$iteration <- 0
   v$id <- id
-  
   #### MAIN GAMEPLAY FUNCTION ####
   shoot <- function(rps){
     v$player1 <- rps
@@ -15,6 +14,7 @@ shinyServer(function(input, output, session) {
     v$endTime <- Sys.time() - choiceStart
     
     v$score <- updateScore(v$score, outcome1(v$player1, v$player2))
+    roundAppend(dat,v$id, v$iteration, v$player1, v$player2, outcometable(outcome1(v$player1, v$player2)),input$computerMode, v$endTime)
     v$iteration <- v$iteration + 1
   }
   
@@ -27,7 +27,7 @@ shinyServer(function(input, output, session) {
   
   #### RESET SOME ELEMENTS WHEN NEW PLAYER IS SELECTED ####
   observeEvent(input$newPlayer, {
-     v$score$count <- 0
+      v$score$count <- 0
      v$iteration <- 0
      timestart <- Sys.time()
      id <- id + 1
@@ -37,30 +37,31 @@ shinyServer(function(input, output, session) {
   
   #### MAIN BODY ELEMENTS ####
   output$imgPlayer1 <- renderImage({
-    if(v$player1 == 1){            
-      list(src = "./icons/left-rock.png", width = "90%")
-    }                                        
-    else if(v$player1 == 2){
-      list(src = "./icons/left-paper.png", width = "90%")
-    }
-    else if(v$player1 == 3){
-      list(src = "./icons/left-scissors.png", width = "90%")
-    }else if(is.null(v$player1)){
-      
-    }
+      if(is.null(v$player1)){
+        list(src = "./icons/blank.png", width = "90%")
+      }else if(v$player1 == 1){            
+        list(src = "./icons/left-rock.png", width = "90%")
+      }                                        
+      else if(v$player1 == 2){
+        list(src = "./icons/left-paper.png", width = "90%")
+      }
+      else if(v$player1 == 3){
+        list(src = "./icons/left-scissors.png", width = "90%")
+      }
   }, deleteFile = FALSE)
   
   output$displayPlayer1 <- renderUI({
-       if(is.null(v$player1)){
-         
-       }else{
-         div(id="pl1", imageOutput("imgPlayer1"))
-       }
-      
+         if(is.null(v$player1)){
+           
+         }else{
+           div(id="pl1", imageOutput("imgPlayer1"))
+         }
   })
-  
+
   output$imgPlayer2 <- renderImage({
-    if(v$player2 == 1){            
+    if(is.null(v$player2)){
+      list(src = "./icons/blank.png", width = "90%")
+    }else if(v$player2 == 1){            
       list(src = "./icons/right-rock.png", width = "90%")
     }                                        
     else if(v$player2 == 2){
@@ -68,12 +69,12 @@ shinyServer(function(input, output, session) {
     }
     else if(v$player2 == 3){
       list(src = "./icons/right-scissors.png", width = "90%")
-    }else if(is.null(v$player2)){
-      
     }
+    
   }, deleteFile = FALSE)
   
   output$displayPlayer2 <- renderUI({
+    
     if(is.null(v$player1)){
  
     }else{
@@ -120,7 +121,7 @@ shinyServer(function(input, output, session) {
   
   output$matchesTable <- renderTable({
     invalidateLater(input$timeBetween*1000, session)
-    compTable(comp, v$id)
+    compTable(dat, v$id)
   })
   
   output$procTime <- renderText({
@@ -139,11 +140,11 @@ shinyServer(function(input, output, session) {
   })
   
   #### APPEND DATA TO THE TRAINING DATA TABLE AND COMPUTER SCORE TABLE ####
-  observe({
-    if(!is.null(v$player1) & !is.null(v$player2)){
-      dat <- roundAppend(dat,v$id, v$iteration, v$player1, v$player2, outcometable(outcome1(v$player1, v$player2)))
-      comp <- compAppend(comp,v$id, v$player1, v$player2, outcometable(outcome1(v$player1, v$player2)), input$computerMode, v$endTime)
-    }
-  })
+  # observe({
+  #     if(!is.null(v$player1) & !is.null(v$player2)){
+  #       dat <- 
+  # 
+  #     }
+  # })
   
 })

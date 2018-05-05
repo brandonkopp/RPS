@@ -1,5 +1,7 @@
 <h2>RPS Shiny</h2>
  
+<p><b>UPDATE (5May18)</b> - I updated the way the app stores data. It now appends rows to a Google Sheet. It turns out you can't store data locally when the app is posted to ShinyApps. That makes this a bit harder to run locally. You will either have to build that in yourself or create a Google Sheet and add the key for that table to the global.R file.</p>
+
 <p>This is a simple Rock, Paper, Scissors application built in R Shiny. The computer's selections are driven by a multiple logistic regression model.</p>
 
 <p>You can preview the app at: <a href="https://brandonkopp.shinyapps.io/RPS-Shiny/">https://brandonkopp.shinyapps.io/RPS-Shiny/</a>.</p>
@@ -8,7 +10,7 @@
 
 <p>I developed this app to show my coworkers something neat you can do with R Shiny.  This app was also an opportunity for me to learn some new things. This is what I learned while creating this app and hope to pass on to anyone who comes across this repo:</p>
 
-- <b>Persistent Storage:</b> This is the first app I've built that collects and stores data on the Shiny server (oh, by the way, your matches against the computer were recorded in a data file).
+- <b>Persistent Storage:</b> This is the first app I've built that collects and stores data. I originally tried using traditional saveRDS(), but found that that doesn't work on ShinyApps. The app now uses Google Sheets to store the data. This causes some latency issues, but does what it's supposed to.
 - <b>Predictive Modeling:</b> I wanted to build a predictive model into an application. How the model works is explained below.
 - <b>Image Elements:</b> I wanted to incorporate dynamic images that appear and disappear as part of the game.
 - <b>Resetting:</b> Through building this app, I discovered the InvalidateLater() function which is tremendously useful for resetting the game board.
