@@ -4,8 +4,6 @@
 
 <p>This is a simple Rock, Paper, Scissors application built in R Shiny. The computer's selections are driven by a multiple logistic regression model.</p>
 
-<p>You can preview the app at: <a href="https://brandonkopp.shinyapps.io/RPS-Shiny/">https://brandonkopp.shinyapps.io/RPS-Shiny/</a>.</p>
-
 ![RPS UI Image](img/newRPS.png)
 
 <p>I developed this app to show my coworkers something neat you can do with R Shiny.  This app was also an opportunity for me to learn some new things. This is what I learned while creating this app and hope to pass on to anyone who comes across this repo:</p>
